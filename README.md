@@ -1,0 +1,1 @@
+# go-avro-schema-registry
