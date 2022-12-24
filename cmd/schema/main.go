@@ -59,4 +59,6 @@ func main() {
 		return
 	}
 	logger.Infow("cmd schema created", "version", cmdSchema.Version)
+
+	rcl.SetCompatibilityLevel(context.Background(), sr.CompatBackward, msgSchema.Subject, cmdSchema.Subject)
 }
