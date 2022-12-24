@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package idl.command;
+option go_package = "github.com/haandol/protobuf/pkg/idlpb/commandpb";
+
+import "base.proto";
+
+message BookCarBody {
+  int32 trip_id = 1;
+  uint32 car_id = 2;
+}
+
+message BookCar {
+  idl.Message message = 1;
+  BookCarBody body = 2;
+}

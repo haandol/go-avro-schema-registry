@@ -1,1 +1,1 @@
-# go-avro-schema-registry
+# go-protobuf-schema-registry

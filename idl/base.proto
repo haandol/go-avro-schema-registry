@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/haandol/protobuf/pkg/idlpb";
+
+message Message {
+  string name = 1;
+  string version = 2;
+  string id = 3;
+  string correlation_id = 4;
+  string parent_id = 5;
+  string created_at = 6;
+}

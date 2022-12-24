@@ -1,0 +1,11 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  idl:
+    vars:
+      OUT_DIR: pkg/idlpb
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - protoc -I ./idl --go_opt=paths=source_relative --go_out={{.OUT_DIR}} ./idl/**/*.proto
