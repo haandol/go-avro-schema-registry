@@ -28,37 +28,60 @@ func main() {
 		logger.Errorw("failed to read proto file", "error", err.Error())
 		return
 	}
-	msgSchema, err := rcl.CreateSchema(context.Background(), "message.Message", sr.Schema{
+	msgSchema := sr.Schema{
 		Schema: string(msgProto),
 		Type:   sr.TypeProtobuf,
-	})
+	}
+	isCompatible, err := rcl.CheckCompatibility(context.Background(), "message.Message", -1, msgSchema)
+	if err != nil {
+		logger.Errorw("failed to check compatibility", "error", err.Error())
+		return
+	}
+	if !isCompatible {
+		logger.Errorw("schema is not compatible")
+		return
+	}
+	msgSubSchema, err := rcl.CreateSchema(context.Background(), "message.Message", msgSchema)
 	if err != nil {
 		logger.Errorw("failed to create schema", "error", err.Error())
 		return
 	}
-	logger.Infow("cmd schema created", "version", msgSchema.Version)
+	logger.Infow("msg schema created", "version", msgSubSchema.Version)
 
 	cmdProto, err := os.ReadFile("idl/commandpb/car.proto")
 	if err != nil {
 		logger.Errorw("failed to read proto file", "error", err.Error())
 		return
 	}
-	cmdSchema, err := rcl.CreateSchema(context.Background(), "command.BookCar", sr.Schema{
+	cmdSchema := sr.Schema{
 		Schema: string(cmdProto),
 		Type:   sr.TypeProtobuf,
 		References: []sr.SchemaReference{
 			sr.SchemaReference{
 				Name:    "base.proto",
-				Subject: msgSchema.Subject,
+				Subject: msgSubSchema.Subject,
 				Version: 1,
 			},
 		},
-	})
+	}
+	isCompatible, err = rcl.CheckCompatibility(context.Background(), "command.BookCar", -1, cmdSchema)
+	if err != nil {
+		logger.Errorw("failed to check compatibility", "error", err.Error())
+		return
+	}
+	if !isCompatible {
+		logger.Errorw("schema is not compatible")
+		return
+	}
+	cmdSubSchema, err := rcl.CreateSchema(context.Background(), "command.BookCar", cmdSchema)
 	if err != nil {
 		logger.Errorw("failed to create schema", "error", err.Error())
 		return
 	}
-	logger.Infow("cmd schema created", "version", cmdSchema.Version)
+	logger.Infow("cmd schema created", "version", cmdSubSchema.Version)
 
-	rcl.SetCompatibilityLevel(context.Background(), sr.CompatBackward, msgSchema.Subject, cmdSchema.Subject)
+	rcl.SetCompatibilityLevel(context.Background(),
+		sr.CompatBackward,
+		msgSubSchema.Subject, cmdSubSchema.Subject,
+	)
 }
