@@ -42,9 +42,13 @@ func main() {
 	}
 
 	var serde sr.Serde
-	serde.Register(cmdSchema.ID, &commandpb.BookCar{}, sr.EncodeFn(func(v any) ([]byte, error) {
-		return proto.Marshal(v.(*commandpb.BookCar))
-	}))
+	serde.Register(
+		cmdSchema.ID,
+		&commandpb.BookCar{},
+		sr.EncodeFn(func(v any) ([]byte, error) {
+			return proto.Marshal(v.(*commandpb.BookCar))
+		}),
+	)
 
 	for {
 		cmd := &commandpb.BookCar{

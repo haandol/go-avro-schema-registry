@@ -54,9 +54,13 @@ func main() {
 		return
 	}
 
-	serde.Register(cmdSchema.ID, &commandpb.BookCar{}, sr.DecodeFn(func(b []byte, v any) error {
-		return proto.Unmarshal(b, v.(*commandpb.BookCar))
-	}))
+	serde.Register(
+		cmdSchema.ID,
+		&commandpb.BookCar{},
+		sr.DecodeFn(func(b []byte, v any) error {
+			return proto.Unmarshal(b, v.(*commandpb.BookCar))
+		}),
+	)
 
 	if err := c.Consume(context.Background(), handler); err != nil {
 		logger.Fatalw("failed to consume kafka", "error", err.Error())
