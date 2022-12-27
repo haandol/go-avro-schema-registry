@@ -60,12 +60,3 @@ services:
       - ~/.aws:/root/.aws
     ports:
       - '8090:8090'
-  wire:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.local
-    profiles: ['wire']
-    working_dir: /src/pkg/app
-    command: [wire]
-    volumes:
-      - .:/src

@@ -3,6 +3,9 @@ version: '3'
 dotenv: ['.env']
 
 tasks:
+  schema:
+    cmds:
+      - go run cmd/schema/main.go
   idl:
     vars:
       OUT_DIR: pkg/idlpb
