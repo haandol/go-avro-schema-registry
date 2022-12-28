@@ -4,6 +4,7 @@ dotenv: ['.env']
 
 tasks:
   schema:
+    deps: [idl]
     cmds:
       - go run cmd/schema/main.go
   idl:
