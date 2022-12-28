@@ -23,6 +23,12 @@ $ go mod tidy && go mod vendor
 $ docker-compose --profile backend up -d
 ```
 
+## Copy .ENV
+
+```bash
+$ cp env/local.env .env
+```
+
 ## Build IDL
 
 build Protobuf IDL interface 
