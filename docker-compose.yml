@@ -52,7 +52,7 @@ services:
     ports:
       - '8081:8081'
   dev:
-    image: cosmtrek/air
+    image: cosmtrek/air:1.41.0
     profiles: ['dev']
     working_dir: /src
     volumes:
